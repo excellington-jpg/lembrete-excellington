@@ -1,0 +1,673 @@
+﻿
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lembrete Excellington</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'media',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 h-full flex flex-col justify-between selection:bg-amber-500 selection:text-white">
+
+    <header class="bg-slate-800 border-b border-slate-700 shadow-lg px-4 py-3 sticky top-0 z-20">
+        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-amber-600 to-amber-400 p-2.5 rounded-xl shadow-md text-slate-950 font-bold text-xl flex items-center justify-center">
+                    <i class="fa-solid fa-feather-pointed"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+                        Lembrete Excellington
+                        <span class="text-xs bg-amber-500/20 text-amber-300 font-medium px-2 py-0.5 rounded-full border border-amber-500/30">Ultra-Rápido</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Sua agenda ágil e independente, sem corporações.</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                <button onclick="openTermsModal()" class="flex-1 sm:flex-none px-3 py-2 text-xs font-medium bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg transition-all border border-slate-600 flex items-center justify-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-scale-balanced text-amber-400"></i> Termos de Uso
+                </button>
+                <button onclick="requestNotificationPermission()" id="notifBtn" class="px-3 py-2 text-xs font-medium bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg transition-all border border-slate-600 flex items-center justify-center gap-1.5 shadow-sm" title="Ativar Notificações">
+                    <i class="fa-solid fa-bell text-amber-400"></i> <span id="notifBtnText">Notificações</span>
+                </button>
+                <button onclick="exitApp()" class="px-3 py-2 text-xs font-medium bg-rose-900/60 hover:bg-rose-800 text-rose-200 rounded-lg transition-all border border-rose-700/50 flex items-center justify-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-power-off"></i> Sair
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col gap-6 overflow-y-auto">
+        
+        <!-- Quick Input Form Card -->
+        <div class="bg-slate-800/90 backdrop-blur border border-slate-700/80 rounded-2xl p-4 sm:p-5 shadow-xl">
+            <h2 class="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-bolt text-amber-400"></i> Adicionar Compromisso Rápido
+            </h2>
+            <form id="taskForm" onsubmit="handleAddTask(event)" class="space-y-3">
+                <div>
+                    <input type="text" id="taskInput" placeholder="O que precisa ser feito? (Ex: Ligar para fornecedor às 15h)" required
+                        class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all shadow-inner">
+                </div>
+                <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <div class="relative flex-1 sm:flex-none">
+                            <input type="date" id="taskDate" required
+                                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <div class="relative flex-1 sm:flex-none">
+                            <input type="time" id="taskTime" required
+                                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold px-6 py-2.5 rounded-xl text-sm transition-all shadow-lg hover:shadow-amber-500/20 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Salvar Compromisso
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
+            <div class="flex items-center gap-2">
+                <h3 class="text-base font-bold text-slate-200">Seus Compromissos</h3>
+                <span id="taskCountBadge" class="text-xs bg-slate-800 border border-slate-700 text-slate-300 px-2.5 py-0.5 rounded-full font-semibold">0</span>
+            </div>
+            
+            <!-- Filter buttons -->
+            <div class="flex bg-slate-800/80 p-1 rounded-xl border border-slate-700/60 text-xs font-medium">
+                <button onclick="setFilter('all')" id="filterBtn-all" class="px-3 py-1.5 rounded-lg transition-all bg-amber-500 text-slate-950 font-semibold shadow">Todos</button>
+                <button onclick="setFilter('pending')" id="filterBtn-pending" class="px-3 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white">Pendentes <span class="text-red-400 ml-1">●</span></button>
+                <button onclick="setFilter('completed')" id="filterBtn-completed" class="px-3 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white">Concluídos <span class="text-blue-400 ml-1">●</span></button>
+            </div>
+        </div>
+
+        <!-- Task List Container -->
+        <div id="taskList" class="space-y-3 pb-10">
+            <!-- Dynamic task items inserted here -->
+        </div>
+
+        <!-- Empty state message -->
+        <div id="emptyState" class="hidden flex-col items-center justify-center py-16 text-center">
+            <div class="w-16 h-16 bg-slate-800 border border-slate-700 rounded-full flex items-center justify-center text-slate-500 text-2xl mb-3 shadow-inner">
+                <i class="fa-solid fa-clipboard-check"></i>
+            </div>
+            <p class="text-slate-300 font-medium text-sm">Nenhum compromisso cadastrado.</p>
+            <p class="text-slate-500 text-xs mt-1">Adicione compromissos acima para começar sua rotina com agilidade.</p>
+        </div>
+
+    </main>
+
+    <footer class="bg-slate-800/50 border-t border-slate-800 py-3 text-center text-xs text-slate-500">
+        <p>Lembrete Excellington &copy; 2026 — Armazenamento local seguro no seu próprio dispositivo.</p>
+    </footer>
+
+    <!-- Terms Modal -->
+    <div id="termsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative animate-in fade-in zoom-in duration-150">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-3">
+                <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-scale-balanced text-amber-400"></i> Termos de Uso e Responsabilidade
+                </h3>
+                <button onclick="closeTermsModal()" class="text-slate-400 hover:text-white p-1 rounded-lg">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="text-xs text-slate-300 space-y-3 max-h-[60vh] overflow-y-auto pr-2 leading-relaxed">
+                <p><strong>1. Natureza do Aplicativo:</strong> O <em>Lembrete Excellington</em> é uma ferramenta independente de anotações e checklists rápidos, desenvolvida com foco total em agilidade, praticidade e autonomia do usuário.</p>
+                <p><strong>2. Armazenamento Local:</strong> Todos os dados de compromissos inseridos são salvos estritamente no armazenamento local (<code class="bg-slate-900 px-1 py-0.5 rounded text-amber-400">localStorage</code>) do seu próprio dispositivo. Nenhum dado é enviado, coletado ou armazenado em servidores externos, corporações ou nuvens de terceiros.</p>
+                <p><strong>3. Responsabilidade do Usuário:</strong> Por se tratar de armazenamento local, a exclusão de dados do navegador (limpeza de cache/cookies) ou perda do dispositivo resultará na remoção permanente dos compromissos salvos. O usuário é o único responsável por gerenciar e fazer backup manual de suas informações críticas, caso julgue necessário.</p>
+                <p><strong>4. Notificações do Dispositivo:</strong> As notificações dependem das permissões concedidas no seu navegador/sistema operacional. O Excellington emite alarmes visuais e sonoros quando o aplicativo estiver aberto ou em segundo plano compatível, mas não se responsabiliza por falhas de entrega decorrentes de configurações de economia de bateria ou bloqueios do sistema operacional.</p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-slate-700 flex justify-end">
+                <button onclick="closeTermsModal()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold px-5 py-2 rounded-xl text-xs transition-all shadow">
+                    Entendido e Concordo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <div id="editModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-3">
+                <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-amber-400"></i> Editar Compromisso
+                </h3>
+                <button onclick="closeEditModal()" class="text-slate-400 hover:text-white p-1 rounded-lg">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form id="editForm" onsubmit="handleSaveEdit(event)" class="space-y-3">
+                <input type="hidden" id="editIndex">
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Descrição</label>
+                    <input type="text" id="editTaskInput" required
+                        class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Data</label>
+                        <input type="date" id="editTaskDate" required
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Horário</label>
+                        <input type="time" id="editTaskTime" required
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+                <div class="mt-6 pt-3 border-t border-slate-700 flex justify-end gap-2">
+                    <button type="button" onclick="closeEditModal()" class="bg-slate-700 hover:bg-slate-600 text-slate-300 px-4 py-2 rounded-xl text-xs font-medium transition-all">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold px-5 py-2 rounded-xl text-xs transition-all shadow">
+                        Salvar Alterações
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Active Alarm Notification Modal -->
+    <div id="alarmModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border-2 border-red-500 rounded-2xl max-w-md w-full p-6 shadow-[0_0_50px_rgba(239,68,68,0.3)] text-center animate-bounce-short relative">
+            <div class="w-16 h-16 bg-red-500/20 border border-red-500/50 rounded-full flex items-center justify-center text-red-400 text-2xl mx-auto mb-4 animate-pulse">
+                <i class="fa-solid fa-bell-ring"></i>
+            </div>
+            <span class="text-xs uppercase tracking-wider font-bold bg-red-500/20 text-red-300 px-3 py-1 rounded-full border border-red-500/30">Alarme de Compromisso</span>
+            <h3 id="alarmTaskTitle" class="text-lg font-bold text-white mt-3 mb-1">Título do compromisso</h3>
+            <p id="alarmTaskTimeStr" class="text-xs text-slate-400 mb-4">Agendado para: 12/09/2026 às 10:40</p>
+            
+            <div class="bg-slate-800/80 border border-slate-700/80 p-3 rounded-xl mb-4 text-left space-y-2">
+                <label class="block text-[11px] font-semibold text-amber-400 uppercase tracking-wider">Reagendar Nova Data/Horário:</label>
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="date" id="alarmNewDate" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-amber-500">
+                    <input type="time" id="alarmNewTime" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:ring-1 focus:ring-amber-500">
+                </div>
+                <button onclick="saveAlarmReschedule()" class="w-full bg-slate-700 hover:bg-slate-600 text-amber-300 text-xs font-semibold py-1.5 rounded-lg transition-all border border-slate-600 flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-calendar-days"></i> Salvar Nova Data/Horário
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <button onclick="snoozeAlarm(30)" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-semibold py-2 px-3 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5 shadow">
+                    <i class="fa-solid fa-clock-rotate-left"></i> +30 Minutos
+                </button>
+                <button onclick="snoozeAlarm(60)" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-semibold py-2 px-3 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5 shadow">
+                    <i class="fa-solid fa-clock-rotate-left"></i> +60 Minutos
+                </button>
+            </div>
+
+            <button onclick="stopAlarm()" class="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-bold py-2.5 px-6 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 text-xs">
+                <i class="fa-solid fa-stop"></i> Parar Alarme / Concluir Tarefa
+            </button>
+        </div>
+    </div>
+
+    <!-- Custom Info / Message Box Modal -->
+    <div id="msgModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-sm w-full p-6 shadow-2xl text-center">
+            <div id="msgIcon" class="w-12 h-12 rounded-full flex items-center justify-center text-xl mx-auto mb-3"></div>
+            <h3 id="msgTitle" class="text-base font-bold text-white mb-2">Aviso</h3>
+            <p id="msgText" class="text-xs text-slate-300 mb-5 leading-relaxed"></p>
+            <button onclick="closeMsgModal()" class="w-full bg-slate-700 hover:bg-slate-600 text-white font-semibold py-2.5 rounded-xl text-xs transition-all">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let tasks = JSON.parse(localStorage.getItem('excellington_tasks')) || [];
+        let currentFilter = 'all';
+        let activeAlarmTaskIndex = null;
+        let alarmAudioInterval = null;
+
+        // Initialize App on Load
+        window.onload = function() {
+            setDefaultDateTime();
+            renderTasks();
+            checkNotificationStatus();
+            
+            // Check alarms every 10 seconds
+            setInterval(checkAlarms, 10000);
+            // Quick check immediately
+            checkAlarms();
+        };
+
+        function setDefaultDateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+
+            document.getElementById('taskDate').value = `${year}-${month}-${day}`;
+            document.getElementById('taskTime').value = `${hours}:${minutes}`;
+        }
+
+        function saveTasksToStorage() {
+            localStorage.setItem('excellington_tasks', JSON.stringify(tasks));
+        }
+
+        // Add Task
+        function handleAddTask(e) {
+            e.preventDefault();
+            const input = document.getElementById('taskInput');
+            const dateInput = document.getElementById('taskDate');
+            const timeInput = document.getElementById('taskTime');
+
+            const newTask = {
+                id: Date.now().toString(),
+                text: input.value.trim(),
+                date: dateInput.value,
+                time: timeInput.value,
+                completed: false,
+                notified: false,
+                createdAt: new Date().toISOString()
+            };
+
+            tasks.unshift(newTask);
+            saveTasksToStorage();
+            renderTasks();
+
+            input.value = '';
+            setDefaultDateTime();
+            input.focus();
+        }
+
+        // Toggle Task Completion
+        function toggleTask(index) {
+            tasks[index].completed = !tasks[index].completed;
+            if (tasks[index].completed) {
+                tasks[index].notified = true; // prevent alarm if completed
+            }
+            saveTasksToStorage();
+            renderTasks();
+        }
+
+        // Delete Task
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            saveTasksToStorage();
+            renderTasks();
+        }
+
+        // Edit Modal Handlers
+        function openEditModal(index) {
+            const task = tasks[index];
+            document.getElementById('editIndex').value = index;
+            document.getElementById('editTaskInput').value = task.text;
+            document.getElementById('editTaskDate').value = task.date;
+            document.getElementById('editTaskTime').value = task.time;
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+
+        function handleSaveEdit(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('editIndex').value);
+            const text = document.getElementById('editTaskInput').value.trim();
+            const date = document.getElementById('editTaskDate').value;
+            const time = document.getElementById('editTaskTime').value;
+
+            if (index >= 0 && index < tasks.length) {
+                tasks[index].text = text;
+                tasks[index].date = date;
+                tasks[index].time = time;
+                tasks[index].notified = false; // reset notification status if time changed
+                saveTasksToStorage();
+                renderTasks();
+                closeEditModal();
+            }
+        }
+
+        // Filter Handlers
+        function setFilter(filter) {
+            currentFilter = filter;
+            ['all', 'pending', 'completed'].forEach(f => {
+                const btn = document.getElementById(`filterBtn-${f}`);
+                if (f === filter) {
+                    btn.className = "px-3 py-1.5 rounded-lg transition-all bg-amber-500 text-slate-950 font-semibold shadow";
+                } else {
+                    btn.className = "px-3 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white";
+                }
+            });
+            renderTasks();
+        }
+
+        // Render Tasks
+        function renderTasks() {
+            const listContainer = document.getElementById('taskList');
+            const emptyState = document.getElementById('emptyState');
+            const badge = document.getElementById('taskCountBadge');
+
+            listContainer.innerHTML = '';
+
+            let filteredTasks = tasks.map((t, originalIndex) => ({ ...t, originalIndex }));
+
+            if (currentFilter === 'pending') {
+                filteredTasks = filteredTasks.filter(t => !t.completed);
+            } else if (currentFilter === 'completed') {
+                filteredTasks = filteredTasks.filter(t => t.completed);
+            }
+
+            badge.textContent = tasks.length;
+
+            if (filteredTasks.length === 0) {
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+            } else {
+                emptyState.classList.remove('flex');
+                emptyState.classList.add('hidden');
+
+                filteredTasks.forEach((task) => {
+                    const i = task.originalIndex;
+                    // Color rule: pending = red theme, completed = blue theme
+                    const borderColor = task.completed ? 'border-blue-500/40 bg-blue-950/20' : 'border-red-500/40 bg-red-950/20';
+                    const textColor = task.completed ? 'text-blue-200 line-through' : 'text-slate-100';
+                    const badgeColor = task.completed ? 'bg-blue-500/20 text-blue-300 border-blue-500/30' : 'bg-red-500/20 text-red-300 border-red-500/30';
+                    const dotColor = task.completed ? 'bg-blue-400' : 'bg-red-400';
+
+                    const card = document.createElement('div');
+                    card.className = `p-4 rounded-2xl border ${borderColor} transition-all shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3`;
+                    
+                    // Format date for display
+                    const [year, month, day] = task.date.split('-');
+                    const formattedDate = `${day}/${month}/${year}`;
+
+                    card.innerHTML = `
+                        <div class="flex items-start gap-3 w-full sm:w-auto flex-1">
+                            <button onclick="toggleTask(${i})" class="mt-0.5 w-6 h-6 rounded-lg border flex items-center justify-center transition-all flex-shrink-0 ${task.completed ? 'bg-blue-600 border-blue-500 text-white' : 'border-slate-600 bg-slate-900 hover:border-red-400'}">
+                                ${task.completed ? '<i class="fa-solid fa-check text-xs"></i>' : ''}
+                            </button>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium ${textColor} break-words">${escapeHtml(task.text)}</p>
+                                <div class="flex flex-wrap items-center gap-2 mt-1.5">
+                                    <span class="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full border ${badgeColor}">
+                                        <span class="w-1.5 h-1.5 rounded-full ${dotColor}"></span>
+                                        ${task.completed ? 'Concluído' : 'Pendente'}
+                                    </span>
+                                    <span class="text-[11px] text-slate-400 flex items-center gap-1">
+                                        <i class="fa-regular fa-calendar"></i> ${formattedDate}
+                                    </span>
+                                    <span class="text-[11px] text-slate-400 flex items-center gap-1">
+                                        <i class="fa-regular fa-clock"></i> ${task.time}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-1 self-end sm:self-center">
+                            <button onclick="openEditModal(${i})" title="Editar" class="p-2 text-slate-400 hover:text-amber-400 hover:bg-slate-800 rounded-lg transition-all">
+                                <i class="fa-solid fa-pen text-xs"></i>
+                            </button>
+                            <button onclick="deleteTask(${i})" title="Excluir" class="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition-all">
+                                <i class="fa-solid fa-trash text-xs"></i>
+                            </button>
+                        </div>
+                    `;
+                    listContainer.appendChild(card);
+                });
+            }
+        }
+
+        // Notification & Alarm System
+        function requestNotificationPermission() {
+            if (!("Notification" in window)) {
+                showMsgModal("Compatibilidade", "Seu navegador não suporta notificações de desktop.", "warning");
+                return;
+            }
+
+            Notification.requestPermission().then(permission => {
+                checkNotificationStatus();
+                if (permission === "granted") {
+                    showMsgModal("Sucesso", "Notificações ativadas com sucesso! Você receberá avisos na data e horário estipulados.", "success");
+                } else {
+                    showMsgModal("Aviso", "A permissão de notificações foi negada. O aplicativo ainda funcionará com alarmes internos na tela.", "warning");
+                }
+            });
+        }
+
+        function checkNotificationStatus() {
+            const btnText = document.getElementById('notifBtnText');
+            if (!("Notification" in window)) {
+                btnText.textContent = "Indisponível";
+                return;
+            }
+            if (Notification.permission === "granted") {
+                btnText.textContent = "Ativadas";
+            } else if (Notification.permission === "denied") {
+                btnText.textContent = "Bloqueadas";
+            } else {
+                btnText.textContent = "Notificações";
+            }
+        }
+
+        function checkAlarms() {
+            const now = new Date();
+            const currentDateStr = now.toISOString().split('T')[0];
+            const currentHours = String(now.getHours()).padStart(2, '0');
+            const currentMinutes = String(now.getMinutes()).padStart(2, '0');
+            const currentTimeStr = `${currentHours}:${currentMinutes}`;
+
+            tasks.forEach((task, index) => {
+                if (!task.completed && !task.notified) {
+                    if (task.date === currentDateStr && task.time <= currentTimeStr) {
+                        triggerAlarm(index, task);
+                    }
+                }
+            });
+        }
+
+        function triggerAlarm(index, task) {
+            tasks[index].notified = true;
+            saveTasksToStorage();
+            renderTasks();
+
+            activeAlarmTaskIndex = index;
+
+            // Show visual alarm modal
+            document.getElementById('alarmTaskTitle').textContent = task.text;
+            document.getElementById('alarmTaskTimeStr').textContent = `Agendado para: ${task.date.split('-').reverse().join('/')} às ${task.time}`;
+            
+            // Pre-fill reschedule inputs with current task date/time
+            document.getElementById('alarmNewDate').value = task.date;
+            document.getElementById('alarmNewTime').value = task.time;
+
+            document.getElementById('alarmModal').classList.remove('hidden');
+
+            // Trigger Browser Notification API if granted
+            if ("Notification" in window && Notification.permission === "granted") {
+                try {
+                    new Notification("Lembrete Excellington", {
+                        body: `Compromisso: ${task.text}`,
+                        icon: "https://placehold.co/128x128/d97706/ffffff?text=LE"
+                    });
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+
+            // Play continuous beep audio using Web Audio API
+            playAlarmSound();
+        }
+
+        function snoozeAlarm(minutes) {
+            if (activeAlarmTaskIndex === null || activeAlarmTaskIndex >= tasks.length) return;
+            
+            const now = new Date();
+            now.setMinutes(now.getMinutes() + minutes);
+            
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+
+            tasks[activeAlarmTaskIndex].date = `${year}-${month}-${day}`;
+            tasks[activeAlarmTaskIndex].time = `${hours}:${mins}`;
+            tasks[activeAlarmTaskIndex].notified = false; // reset notification state for the future alarm
+
+            saveTasksToStorage();
+            renderTasks();
+            stopAlarmSoundOnly();
+            document.getElementById('alarmModal').classList.add('hidden');
+            activeAlarmTaskIndex = null;
+        }
+
+        function saveAlarmReschedule() {
+            if (activeAlarmTaskIndex === null || activeAlarmTaskIndex >= tasks.length) return;
+            
+            const newDate = document.getElementById('alarmNewDate').value;
+            const newTime = document.getElementById('alarmNewTime').value;
+
+            if (!newDate || !newTime) {
+                showMsgModal("Aviso", "Selecione uma data e horário válidos para reagendar.", "warning");
+                return;
+            }
+
+            tasks[activeAlarmTaskIndex].date = newDate;
+            tasks[activeAlarmTaskIndex].time = newTime;
+            tasks[activeAlarmTaskIndex].notified = false; // reset notification state
+
+            saveTasksToStorage();
+            renderTasks();
+            stopAlarmSoundOnly();
+            document.getElementById('alarmModal').classList.add('hidden');
+            activeAlarmTaskIndex = null;
+        }
+
+        function playAlarmSound() {
+            if (alarmAudioInterval) return;
+            
+            const playBeep = () => {
+                try {
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = 880; // A5 note
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.3);
+                } catch (e) {
+                    console.error(e);
+                }
+            };
+
+            playBeep();
+            alarmAudioInterval = setInterval(playBeep, 1000);
+        }
+
+        function stopAlarmSoundOnly() {
+            if (alarmAudioInterval) {
+                clearInterval(alarmAudioInterval);
+                alarmAudioInterval = null;
+            }
+        }
+
+        function stopAlarm() {
+            stopAlarmSoundOnly();
+
+            if (activeAlarmTaskIndex !== null && activeAlarmTaskIndex < tasks.length) {
+                tasks[activeAlarmTaskIndex].completed = true;
+                saveTasksToStorage();
+                renderTasks();
+            }
+
+            document.getElementById('alarmModal').classList.add('hidden');
+            activeAlarmTaskIndex = null;
+        }
+
+        // Terms Modal
+        function openTermsModal() {
+            document.getElementById('termsModal').classList.remove('hidden');
+        }
+
+        function closeTermsModal() {
+            document.getElementById('termsModal').classList.add('hidden');
+        }
+
+        // Exit App function
+        function exitApp() {
+            // Since modern browsers block window.close() unless opened by script, provide a graceful exit state & message
+            try {
+                window.close();
+            } catch (e) {
+                // fallback
+            }
+            
+            showMsgModal("Sair do Aplicativo", "Você pode fechar esta aba do navegador com total segurança. Todos os seus compromissos estão salvos no armazenamento local do seu dispositivo.", "success");
+        }
+
+        // Custom Message Box Modal
+        function showMsgModal(title, text, type = 'info') {
+            document.getElementById('msgTitle').textContent = title;
+            document.getElementById('msgText').textContent = text;
+            
+            const iconContainer = document.getElementById('msgIcon');
+            if (type === 'success') {
+                iconContainer.className = "w-12 h-12 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-xl mx-auto mb-3 border border-emerald-500/30";
+                iconContainer.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+            } else if (type === 'warning') {
+                iconContainer.className = "w-12 h-12 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center text-xl mx-auto mb-3 border border-amber-500/30";
+                iconContainer.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+            } else {
+                iconContainer.className = "w-12 h-12 bg-blue-500/20 text-blue-400 rounded-full flex items-center justify-center text-xl mx-auto mb-3 border border-blue-500/30";
+                iconContainer.innerHTML = '<i class="fa-solid fa-circle-info"></i>';
+            }
+
+            document.getElementById('msgModal').classList.remove('hidden');
+        }
+
+        function closeMsgModal() {
+            document.getElementById('msgModal').classList.add('hidden');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
+```
