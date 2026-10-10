@@ -1,4 +1,3 @@
-﻿
 <!DOCTYPE html>
 <html lang="pt-BR" class="h-full">
 <head>
@@ -48,64 +47,39 @@
                 <div class="bg-gradient-to-tr from-amber-600 to-amber-400 p-2.5 rounded-xl shadow-md text-slate-950 font-bold text-xl flex items-center justify-center">
                     <i class="fa-solid fa-feather-pointed"></i>
                 </div>
-
-
-                
                 <div>
                     <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
                         Lembrete Excellington
                         <span class="text-xs bg-amber-500/20 text-amber-300 font-medium px-2 py-0.5 rounded-full border border-amber-500/30">Ultra-Rápido</span>
                     </h1>
                     <p class="text-xs text-slate-400">Sua agenda ágil e independentemente de corporações.</p>
-      
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 flex-wrap justify-end w-full sm:w-auto">
+                <div class="flex items-center gap-2 mt-0.5 mr-2">
+                    <span id="user-display-tag" class="text-xs font-semibold text-indigo-300 hidden"></span>
+                    <button onclick="openUsernameModal()" class="text-[10px] text-indigo-400 hover:text-indigo-300 underline hidden" id="edit-user-btn">Editar</button>
                 </div>
 
-                
-
-
-                
-            </div>
-            
-
-
-
-                
-                <button onclick="openTermsModal()" class="flex-1 sm:flex-none px-3 py-2 text-xs font-medium bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg transition-all border border-slate-600 flex items-center justify-center gap-1.5 shadow-sm">
+                <button onclick="openTermsModal()" class="px-3 py-2 text-xs font-medium bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg transition-all border border-slate-600 flex items-center justify-center gap-1.5 shadow-sm">
                     <i class="fa-solid fa-scale-balanced text-amber-400"></i> Termos de Uso
                 </button>
                 <button onclick="requestNotificationPermission()" id="notifBtn" class="px-3 py-2 text-xs font-medium bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg transition-all border border-slate-600 flex items-center justify-center gap-1.5 shadow-sm" title="Ativar Notificações">
                     <i class="fa-solid fa-bell text-amber-400"></i> <span id="notifBtnText">Notificações</span>
                 </button>
+                <!-- Ícone Ativação Pix -->
+                <button onclick="openActivationModal(false)" class="px-3 py-2 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-emerald-400 rounded-lg text-xs font-medium border border-slate-700 transition flex items-center gap-1.5 shadow-sm" title="Renovação Mensal Pix">
+                    <i class="fa-solid fa-key text-emerald-400"></i> Ativação
+                </button>  
                 <button onclick="exitApp()" class="px-3 py-2 text-xs font-medium bg-rose-900/60 hover:bg-rose-800 text-rose-200 rounded-lg transition-all border border-rose-700/50 flex items-center justify-center gap-1.5 shadow-sm">
                     <i class="fa-solid fa-power-off"></i> Sair
                 </button>
-
-                    <!-- Ícone Ativação Pix -->
-                <button onclick="toggleActivationModal()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-emerald-400 rounded-xl text-xs font-medium border border-slate-800 transition" title="Renovação Mensal Pix">
-                    <i class="fa-solid fa-key"></i>
-                </button>  
-                        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-
-
-
-
-
-                
             </div>
         </div>
-
-
-                      <div class="flex items-center gap-2 mt-0.5">
-                        <span id="user-display-tag" class="text-xs font-semibold text-indigo-300 hidden"></span>
-      <button onclick="openUsernameModal()" class="text-[10px] text-indigo-400 hover:text-indigo-300 underline hidden" id="edit-user-btn">Editar</button>
-     
-                      </div>
-
-        
     </header>
 
     <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col gap-6 overflow-y-auto">
-        
         <!-- Quick Input Form Card -->
         <div class="bg-slate-800/90 backdrop-blur border border-slate-700/80 rounded-2xl p-4 sm:p-5 shadow-xl">
             <h2 class="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
@@ -161,7 +135,6 @@
             <p class="text-slate-300 font-medium text-sm">Nenhum compromisso cadastrado.</p>
             <p class="text-slate-500 text-xs mt-1">Adicione compromissos acima para começar sua rotina com agilidade.</p>
         </div>
-
     </main>
 
     <footer class="bg-slate-800/50 border-t border-slate-800 py-3 text-center text-xs text-slate-500">
@@ -283,9 +256,7 @@
         </div>
     </div>
 
-
-
-            <!-- MODAL: Cadastro de Usuário -->
+    <!-- MODAL: Cadastro de Usuário -->
     <div id="username-modal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-sm w-full flex flex-col shadow-2xl">
             <h3 class="text-lg font-bold mb-1 text-white flex items-center gap-2">
@@ -313,7 +284,7 @@
                 <h3 class="font-bold text-emerald-400 text-base flex items-center gap-2">
                     <i class="fa-solid fa-heart text-emerald-500"></i> Renovação Mensal Pix
                 </h3>
-                <button onclick="toggleActivationModal()" class="text-slate-400 hover:text-white p-1">
+                <button id="activation-close-btn" onclick="toggleActivationModal()" class="text-slate-400 hover:text-white p-1">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
@@ -343,7 +314,7 @@
             </div>
 
             <div class="space-y-2 pt-1 border-t border-slate-800">
-                <label class="block text-xs font-medium text-slate-300">Código de Ativação (10 dígitos):</label>
+                <label class="block text-xs font-medium text-slate-300">Código de Ativação (Gerado pelo Admin):</label>
                 <input type="text" id="activation-code-input" placeholder="Digite o código de liberação" class="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500 text-white text-xs rounded-lg p-2.5 font-mono outline-none">
                 <button onclick="validateActivationCode()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-2.5 rounded-lg transition-all shadow-md shadow-indigo-600/30">
                     Ativar Aplicativo
@@ -351,20 +322,13 @@
             </div>
         </div>
     </div>
-    
-
-
-
-
-    
 
     <script>
-
-
-                // --- CONSTANTES DE ARMAZENAMENTO E LICENCIAMENTO ---
+        // --- CONSTANTES DE ARMAZENAMENTO E LICENCIAMENTO ---
         const USERNAME_KEY = 'excellington_gerenciador_username_v1';
         const EXPIRATION_KEY = 'excellington_gerenciador_expiration_v1';
         const PIX_KEY = '16250510850';
+        let isAppForcedBlocked = false;
 
         window.addEventListener('DOMContentLoaded', () => {
             checkAppAccess();
@@ -380,7 +344,6 @@
                 return;
             }
 
-            // Exibir nome do usuário abaixo do subtítulo
             const userTag = document.getElementById('user-display-tag');
             const editBtn = document.getElementById('edit-user-btn');
             userTag.textContent = `• Usuário: ${username}`;
@@ -391,7 +354,7 @@
             const now = Date.now();
 
             if (!expiration || now > parseInt(expiration)) {
-                toggleActivationModal();
+                openActivationModal(true); // Bloqueio forçado por expiração
             }
         }
 
@@ -423,10 +386,30 @@
             checkAppAccess();
         }
 
+        function openActivationModal(forced = false) {
+            isAppForcedBlocked = forced;
+            const modal = document.getElementById('activation-modal');
+            const closeBtn = document.getElementById('activation-close-btn');
+            
+            if (closeBtn) {
+                if (forced) {
+                    closeBtn.classList.add('hidden');
+                } else {
+                    closeBtn.classList.remove('hidden');
+                }
+            }
+            modal.classList.remove('hidden');
+            updateActivationInfo();
+        }
+
         function toggleActivationModal() {
+            if (isAppForcedBlocked) return;
             const modal = document.getElementById('activation-modal');
             modal.classList.toggle('hidden');
             if (!modal.classList.contains('hidden')) {
+                isAppForcedBlocked = false;
+                const closeBtn = document.getElementById('activation-close-btn');
+                if (closeBtn) closeBtn.classList.remove('hidden');
                 updateActivationInfo();
             }
         }
@@ -465,32 +448,44 @@
             const cleanName = username.replace(/\s+/g, '');
             const charCount = cleanName.length;
 
-            const targetDate = new Date();
+            const currentExp = localStorage.getItem(EXPIRATION_KEY);
+            const baseDate = (currentExp && parseInt(currentExp) > Date.now()) ? new Date(parseInt(currentExp)) : new Date();
+            
+            const targetDate = new Date(baseDate);
             targetDate.setDate(targetDate.getDate() + 30);
+
             const day = targetDate.getDate();
             const month = targetDate.getMonth() + 1;
             const year = targetDate.getFullYear();
 
             const sum = charCount + day + month + year;
-            const expectedCode = Math.pow(sum, 3).toString().padStart(10, '0');
+            const expectedCode = String(Math.pow(sum, 3)); // Alinhado com o gerador (sem padStart)
 
             if (codeInput === expectedCode || codeInput === "1234567890") {
                 localStorage.setItem(EXPIRATION_KEY, targetDate.getTime().toString());
+                isAppForcedBlocked = false;
                 document.getElementById('activation-modal').classList.add('hidden');
                 alert("Aplicativo ativado com sucesso por mais 30 dias!");
                 checkAppAccess();
             } else {
-                alert("Código de ativação inválido. Verifique o comprovante enviado para excellington@gmail.com.");
+                alert("Código de ativação inválido. Verifique os dados informados.");
             }
         }
 
-        function toggleTermsModal() {
-            document.getElementById('terms-modal').classList.toggle('hidden');
+        function checkAccessBeforeAction() {
+            const expiration = localStorage.getItem(EXPIRATION_KEY);
+            const now = Date.now();
+            if (!expiration || now > parseInt(expiration)) {
+                openActivationModal(true);
+                return false;
+            }
+            return true;
         }
-        
 
+        function toggleTermsModal() {
+            document.getElementById('termsModal').classList.toggle('hidden');
+        }
 
-        
         // State management
         let tasks = JSON.parse(localStorage.getItem('excellington_tasks')) || [];
         let currentFilter = 'all';
@@ -503,9 +498,7 @@
             renderTasks();
             checkNotificationStatus();
             
-            // Check alarms every 10 seconds
             setInterval(checkAlarms, 10000);
-            // Quick check immediately
             checkAlarms();
         };
 
@@ -528,6 +521,8 @@
         // Add Task
         function handleAddTask(e) {
             e.preventDefault();
+            if (!checkAccessBeforeAction()) return;
+
             const input = document.getElementById('taskInput');
             const dateInput = document.getElementById('taskDate');
             const timeInput = document.getElementById('taskTime');
@@ -553,9 +548,10 @@
 
         // Toggle Task Completion
         function toggleTask(index) {
+            if (!checkAccessBeforeAction()) return;
             tasks[index].completed = !tasks[index].completed;
             if (tasks[index].completed) {
-                tasks[index].notified = true; // prevent alarm if completed
+                tasks[index].notified = true;
             }
             saveTasksToStorage();
             renderTasks();
@@ -563,6 +559,7 @@
 
         // Delete Task
         function deleteTask(index) {
+            if (!checkAccessBeforeAction()) return;
             tasks.splice(index, 1);
             saveTasksToStorage();
             renderTasks();
@@ -570,6 +567,7 @@
 
         // Edit Modal Handlers
         function openEditModal(index) {
+            if (!checkAccessBeforeAction()) return;
             const task = tasks[index];
             document.getElementById('editIndex').value = index;
             document.getElementById('editTaskInput').value = task.text;
@@ -584,6 +582,8 @@
 
         function handleSaveEdit(e) {
             e.preventDefault();
+            if (!checkAccessBeforeAction()) return;
+
             const index = parseInt(document.getElementById('editIndex').value);
             const text = document.getElementById('editTaskInput').value.trim();
             const date = document.getElementById('editTaskDate').value;
@@ -593,7 +593,7 @@
                 tasks[index].text = text;
                 tasks[index].date = date;
                 tasks[index].time = time;
-                tasks[index].notified = false; // reset notification status if time changed
+                tasks[index].notified = false;
                 saveTasksToStorage();
                 renderTasks();
                 closeEditModal();
@@ -641,7 +641,6 @@
 
                 filteredTasks.forEach((task) => {
                     const i = task.originalIndex;
-                    // Color rule: pending = red theme, completed = blue theme
                     const borderColor = task.completed ? 'border-blue-500/40 bg-blue-950/20' : 'border-red-500/40 bg-red-950/20';
                     const textColor = task.completed ? 'text-blue-200 line-through' : 'text-slate-100';
                     const badgeColor = task.completed ? 'bg-blue-500/20 text-blue-300 border-blue-500/30' : 'bg-red-500/20 text-red-300 border-red-500/30';
@@ -650,7 +649,6 @@
                     const card = document.createElement('div');
                     card.className = `p-4 rounded-2xl border ${borderColor} transition-all shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3`;
                     
-                    // Format date for display
                     const [year, month, day] = task.date.split('-');
                     const formattedDate = `${day}/${month}/${year}`;
 
@@ -691,6 +689,7 @@
 
         // Notification & Alarm System
         function requestNotificationPermission() {
+            if (!checkAccessBeforeAction()) return;
             if (!("Notification" in window)) {
                 showMsgModal("Compatibilidade", "Seu navegador não suporta notificações de desktop.", "warning");
                 return;
@@ -744,17 +743,14 @@
 
             activeAlarmTaskIndex = index;
 
-            // Show visual alarm modal
             document.getElementById('alarmTaskTitle').textContent = task.text;
             document.getElementById('alarmTaskTimeStr').textContent = `Agendado para: ${task.date.split('-').reverse().join('/')} às ${task.time}`;
             
-            // Pre-fill reschedule inputs with current task date/time
             document.getElementById('alarmNewDate').value = task.date;
             document.getElementById('alarmNewTime').value = task.time;
 
             document.getElementById('alarmModal').classList.remove('hidden');
 
-            // Trigger Browser Notification API if granted
             if ("Notification" in window && Notification.permission === "granted") {
                 try {
                     new Notification("Lembrete Excellington", {
@@ -766,7 +762,6 @@
                 }
             }
 
-            // Play continuous beep audio using Web Audio API
             playAlarmSound();
         }
 
@@ -784,7 +779,7 @@
 
             tasks[activeAlarmTaskIndex].date = `${year}-${month}-${day}`;
             tasks[activeAlarmTaskIndex].time = `${hours}:${mins}`;
-            tasks[activeAlarmTaskIndex].notified = false; // reset notification state for the future alarm
+            tasks[activeAlarmTaskIndex].notified = false;
 
             saveTasksToStorage();
             renderTasks();
@@ -806,7 +801,7 @@
 
             tasks[activeAlarmTaskIndex].date = newDate;
             tasks[activeAlarmTaskIndex].time = newTime;
-            tasks[activeAlarmTaskIndex].notified = false; // reset notification state
+            tasks[activeAlarmTaskIndex].notified = false;
 
             saveTasksToStorage();
             renderTasks();
@@ -824,7 +819,7 @@
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
                     osc.type = 'sine';
-                    osc.frequency.value = 880; // A5 note
+                    osc.frequency.value = 880;
                     gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
@@ -870,13 +865,11 @@
 
         // Exit App function
         function exitApp() {
-            // Since modern browsers block window.close() unless opened by script, provide a graceful exit state & message
             try {
                 window.close();
             } catch (e) {
                 // fallback
             }
-            
             showMsgModal("Sair do Aplicativo", "Você pode fechar esta aba do navegador com total segurança. Todos os seus compromissos estão salvos no armazenamento local do seu dispositivo.", "success");
         }
 
@@ -910,4 +903,3 @@
     </script>
 </body>
 </html>
-```
